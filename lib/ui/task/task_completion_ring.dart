@@ -36,18 +36,23 @@ class RingPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final strokeWidth = size.width / 15;
     final center = Offset(size.width / 2, size.height / 2);
-    final radius = (size.width - strokeWidth) / 2;
-    final backgroundPaint = Paint()
-      ..strokeWidth = strokeWidth
-      ..isAntiAlias = true
-      ..color = taskNotCompletedColor
-      ..style = PaintingStyle.stroke;
-    canvas.drawCircle(center, radius, backgroundPaint);
+    final notCompleted = progress < 1.0;
+    final radius =
+        notCompleted ? (size.width - strokeWidth) / 2 : size.width / 2;
+
+    if (notCompleted) {
+      final backgroundPaint = Paint()
+        ..strokeWidth = strokeWidth
+        ..isAntiAlias = true
+        ..color = taskNotCompletedColor
+        ..style = PaintingStyle.stroke;
+      canvas.drawCircle(center, radius, backgroundPaint);
+    }
     final forgroundPaint = Paint()
       ..strokeWidth = strokeWidth
       ..isAntiAlias = true
       ..color = taskCompletedColor
-      ..style = PaintingStyle.stroke;
+      ..style = notCompleted ? PaintingStyle.stroke : PaintingStyle.fill;
     canvas.drawArc(Rect.fromCircle(center: center, radius: radius), -.5 * pi,
         2 * pi * progress, false, forgroundPaint);
   }
