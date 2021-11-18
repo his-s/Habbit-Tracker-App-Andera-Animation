@@ -16,7 +16,7 @@ class TaskGrid extends StatelessWidget {
         childAspectRatio: 0.8,
       ),
       itemBuilder: (BuildContext context, int index) {
-        return TaskWithName(preset: presets[index]);
+        return TaskWithName(task: presets[index]);
       },
       itemCount: presets.length,
     );
